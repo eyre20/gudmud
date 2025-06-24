@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Surat Cinta</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: linear-gradient(135deg, #ffe6f0, #fff0f5);
+      animation: bgChange 15s infinite alternate;
+      position: relative;
+    }
+    @keyframes bgChange {
+      0% { background-color: #ffe6f0; }
+      50% { background-color: #fff0f5; }
+      100% { background-color: #ffeefc; }
+    }
+
+    /* Star styling: putih dengan kilauan kuning lembut */
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      box-shadow:
+        0 0 6px 2px rgba(255, 255, 224, 0.8),
+        0 0 12px 4px rgba(255, 255, 180, 0.6);
+      animation: twinkle 2.5s infinite ease-in-out;
+      opacity: 0.8;
+      z-index: 0;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; filter: drop-shadow(0 0 6px rgba(255, 255, 180, 0.4)); }
+      50% { opacity: 1; filter: drop-shadow(0 0 14px rgba(255, 255, 150, 0.9)); }
+    }
+
+    /* Envelope */
+    .envelope {
+      width: 180px;
+      height: 130px;
+      background: #ffc0cb;
+      position: relative;
+      cursor: pointer;
+      transition: transform 1s;
+      z-index: 10;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border-radius: 12px;
+    }
+    .envelope::before, .envelope::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-radius: 2px;
+    }
+    .envelope::before {
+      top: 0;
+      left: 0;
+      border-width: 0 90px 65px 90px;
+      border-color: transparent transparent #ff99bb transparent;
+    }
+    .envelope::after {
+      bottom: 0;
+      left: 0;
+      border-width: 65px 90px 0 90px;
+      border-color: #ff99bb transparent transparent transparent;
+    }
+    .envelope.opened {
+      transform: rotateX(180deg);
+    }
+
+    #messageBox {
+      display: none;
+      text-align: center;
+      animation: fadeIn 2s ease-in;
+      z-index: 20;
+      max-width: 90%;
+      margin-top: 20px;
+    }
+
+    .typing-text {
+      font-size: 18px;
+      font-weight: bold;
+      color: #cc0066;
+      margin: 20px auto;
+      padding: 10px 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid pink;
+      width: 0;
+      animation: typing 5s steps(60) forwards;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      box-shadow: 0 0 10px #fff;
+      display: inline-block;
+      text-shadow:
+         -1px -1px 0 #fff,
+          1px -1px 0 #fff,
+         -1px  1px 0 #fff,
+          1px  1px 0 #fff;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gold-glow {
+      padding: 12px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px gold, 0 0 25px gold, 0 0 40px orange;
+      background: white;
+      display: inline-block;
+      max-width: 250px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      user-select: none;
+    }
+
+    /* Sunflowers */
+    .sunflower {
+      position: absolute;
+      font-size: 24px;
+      animation: bloom 3s ease-out forwards;
+      pointer-events: none;
+      z-index: 1;
+      user-select: none;
+    }
+    @keyframes bloom {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Flower Petals Falling */
+    .petal {
+      position: absolute;
+      font-size: 20px;
+      animation: fall 8s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Surprise heart effect */
+    .burst {
+      position: absolute;
+      font-size: 20px;
+      animation: burstUp 1.5s ease-out forwards;
+      pointer-events: none;
+      z-index: 100;
+      user-select: none;
+    }
+    @keyframes burstUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .typing-text {
+        font-size: 16px;
+      }
+      .envelope {
+        width: 140px;
+        height: 100px;
+      }
+      .gold-glow {
+        max-width: 180px;
+      }
+      .sunflower {
+        font-size: 18px;
+      }
+      .petal {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Envelope -->
+  <div class="envelope" id="envelope" aria-label="Click to open love letter" role="button" tabindex="0"></div>
+
+  <!-- Message -->
+  <div id="messageBox" role="region" aria-live="polite" aria-atomic="true">
+    <div class="typing-text" id="typingText" aria-label="Love message">
+      Hey, I know that you're the prettiest girl I've ever seen
+    </div>
+    <div class="gold-glow" aria-label="Photo of prettiest girl">
+      <img src="https://via.placeholder.com/250x350.png?text=Your+Photo+Here" alt="Pretty Girl" />
+    </div>
+  </div>
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    const messageBox = document.getElementById('messageBox');
+
+    envelope.addEventListener('click', () => {
+      envelope.classList.add('opened');
+      setTimeout(() => {
+        envelope.style.display = 'none';
+        messageBox.style.display = 'block';
+        bloomSunflowers();
+      }, 1000);
+    });
+
+    envelope.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        envelope.click();
+      }
+    });
+
+    // Stars
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      const size = Math.random() * 3 + 2;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.left = Math.random() * 100 + 'vw';
+      document.body.appendChild(star);
+    }
+
+    // Sunflowers
+    function bloomSunflowers() {
+      for (let i = 0; i < 20; i++) {
+        const flower = document.createElement('div');
+        flower.className = 'sunflower';
+        flower.innerText = '🌻';
+        flower.style.top = Math.random() * 100 + 'vh';
+        flower.style.left = Math.random() * 100 + 'vw';
+        flower.style.fontSize = (Math.random() * 20 + 20) + 'px';
+        document.body.appendChild(flower);
+      }
+    }
+
+    // Falling petals (looped)
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.innerText = '🌸';
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.fontSize = (Math.random() * 15 + 15) + 'px';
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 9000);
+    }
+    setInterval(createPetal, 400);
+
+    // Surprise hearts on click or scroll
+    function surpriseHeart(x, y) {
+      const heart = document.createElement('div');
+      heart.classList.add('burst');
+      heart.innerText = ['❤️','💖','💕','💘'][Math.floor(Math.random() * 4)];
+      heart.style.left = x + 'px';
+      heart.style.top = y + 'px';
+      heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1500);
+    }
+
+    document.addEventListener('click', (e) => surpriseHeart(e.clientX, e.clientY));
+    document.addEventListener('scroll', () => {
+      surpriseHeart(window.innerWidth / 2, window.innerHeight / 2);
+    });
+    document.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      surpriseHeart(touch.clientX, touch.clientY);
+    });
+  </script>
+
+</body>
+</html>
